@@ -34,6 +34,9 @@ test-suite test
     build-depends:      cabal-detailed-quickcheck
     type:               detailed-0.9
     test-module:        Tests
+    -- | Tests require /dev/null to exist
+    if !os(linux)
+        buildable:      False
 
 source-repository head
     type:               git
