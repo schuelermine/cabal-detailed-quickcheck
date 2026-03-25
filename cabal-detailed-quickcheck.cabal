@@ -21,14 +21,13 @@ common basic-config
         Cabal >=3.6 && <3.17
     default-language:   GHC2021
 
-
 library
-    import: basic-config
+    import:             basic-config
     exposed-modules:    Distribution.TestSuite.QuickCheck
     hs-source-dirs:     lib
 
 test-suite test
-    import: basic-config
+    import:             basic-config
     hs-source-dirs:     tests
     build-depends:      cabal-detailed-quickcheck
     type:               detailed-0.9
