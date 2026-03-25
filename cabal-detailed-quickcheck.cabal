@@ -26,22 +26,12 @@ library
     exposed-modules:    Distribution.TestSuite.QuickCheck
     hs-source-dirs:     lib
 
-Flag test
-  Description: Enable debug support
-  Default:     False
-  Manual:      True
-
-
-Test-Suite test
+test-suite test
     import: basic-config
-    if flag(test)
-      buildable: True
-    else
-      buildable: False
-    hs-source-dirs:   tests
-    build-depends: cabal-detailed-quickcheck
-    type:             detailed-0.9
-    test-module:      Tests
+    hs-source-dirs:     tests
+    build-depends:      cabal-detailed-quickcheck
+    type:               detailed-0.9
+    test-module:        Tests
 
 source-repository head
     type:               git
