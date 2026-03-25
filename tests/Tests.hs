@@ -1,6 +1,7 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE ViewPatterns #-}
 module Tests where
 
 import Data.Maybe (maybeToList)
@@ -13,44 +14,37 @@ import Test.QuickCheck
     Testable,
     getPositive,
     ioProperty,
-    (===),
+    (===), verbose,
   )
 
 tests :: IO [Test]
-tests = return tests'
-
-normalSettings :: TestArgs
-normalSettings = stdTestArgs {verbosity = Verbose}
-
-getNormalPT :: (Testable prop) => PropertyTest prop -> Test
-getNormalPT = getPropertyTestWith normalSettings
-
-tests' :: [Test]
-tests' =
-  [ getNormalPT
+tests =
+  return [
+    mkPT
       PropertyTest
-        { name = "tautology",
+        { name = "law-of-identity",
           tags = [],
-          property = \i -> (===) @Int i i
+          property = \(i :: Integer) -> i === i
         },
-    getNormalPT
+    mkPT
       PropertyTest
-        { name = "monotonicity-addition",
+        { name = "monotonicity-of-addition",
           tags = [],
-          property = \(args@(ap, bp) :: (Positive Int, Positive Int)) ->
-            let a = getPositive ap
-                b = getPositive bp
-                c = a + b
-            in 0 <= c
-        },
-    getNormalPT
+          property = \(getPositive -> a :: Integer) (getPositive -> b :: Integer) ->
+            0 <= a + b
+        }, mkPT
       PropertyTest
         { name = "monotinicity-time",
           tags = [],
           property = ioProperty do
-            a <- getCPUTime
-            withFile "/dev/null" WriteMode $ \handle -> mapM_ print [1..10000] >> hFlush handle
-            b <- getCPUTime
-            return (a < b)
+            timeBefore <- getCPUTime
+            withFile "/dev/null" WriteMode \handle -> do
+              mapM_ print [1..10000]
+              hFlush handle
+            timeAfter <- getCPUTime
+            return (timeBefore < timeAfter)
         }
   ]
+  where
+    mkPT :: Testable prop => PropertyTest prop -> Test
+    mkPT = getPropertyTestWith (stdTestArgs {verbosity = Verbose})
