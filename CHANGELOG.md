@@ -1,5 +1,11 @@
 # Revision history for cabal-detailed-quickcheck
 
+## 0.3.0.0 — 2026-03-30
+
+* Updated dependencies
+* Updated language to GHC2021
+* Added tests
+
 ## 0.2.0.1 — 2022-10-29
 
 * Broaden version bounds
