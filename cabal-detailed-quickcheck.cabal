@@ -1,6 +1,6 @@
 cabal-version:      3.4
 name:               cabal-detailed-quickcheck
-version:            0.2.0.1
+version:            0.3.0.0
 synopsis:           QuickCheck for Cabal tests
 description:        Turn QuickCheck properties into detailed Cabal tests
 homepage:           https://github.com/schuelermine/cabal-detailed-quickcheck
@@ -46,4 +46,4 @@ source-repository head
 source-repository this
     type:               git
     location:           https://github.com/schuelermine/cabal-detailed-quickcheck.git
-    tag:                0.2.0.1
+    tag:                0.3.0.0
